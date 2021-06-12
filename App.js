@@ -84,6 +84,15 @@ export default function App() {
     })
   }
 
+  const format = (amount, t) => {
+    return Number(amount)
+      .toFixed(t)
+      .replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    //.replace()
+
+
+  };
+
   const ValorUSD = () => {
     axios.get("https://www.binance.com/api/v3/depth?symbol=BNBUSDT&limit=1000").then((response) => {
       setValorDolar(response.data.asks["0"]["0"])
@@ -144,24 +153,24 @@ export default function App() {
 
         <>
           <Text style={{ fontSize: 18, color: '#fff', fontWeight: 'bold', marginTop: 40, marginBottom: 20 }}>Saldo em BTEC:</Text>
-          <TextInput style={[styles.input, { fontSize: 17, marginTop: -10 }]} value={(saldoConta / 1000000000).toLocaleString('pt-BR') + " BTEC"} editable={false} />
+          <TextInput style={[styles.input, { fontSize: 17, marginTop: -10 }]} value={!isNaN(saldoConta) && format((saldoConta / 1000000000), 2) + " BTEC"} editable={false} />
         </>
 
 
         <>
           <Text style={{ fontSize: 18, color: '#fff', fontWeight: 'bold', marginTop: 15, marginBottom: 20 }}>Saldo em Dólar:</Text>
-          <TextInput style={[styles.input, { fontSize: 17, marginTop: -10 }]} value={saldoDolar.toLocaleString('pt-BR') + " $"} editable={false} />
+          <TextInput style={[styles.input, { fontSize: 17, marginTop: -10 }]} value={!isNaN(saldoDolar) && format(saldoDolar, 2) + " $"} editable={false} />
         </>
 
 
         <>
           <Text style={{ fontSize: 18, color: '#fff', fontWeight: 'bold', marginTop: 15, marginBottom: 20 }}>Saldo em Real:</Text>
-          <TextInput style={[styles.input, { fontSize: 17, marginTop: -10 }]} value={saldoReal.toFixed(4).toLocaleString('pt-BR') + " R$"} editable={false} />
+          <TextInput style={[styles.input, { fontSize: 17, marginTop: -10 }]} value={!isNaN(saldoReal) && format(saldoReal, 2) + " R$"} editable={false} />
         </>
 
         <>
           <Text style={{ fontSize: 18, color: '#fff', fontWeight: 'bold', marginTop: 15, marginBottom: 20 }}>Saldo em BnB</Text>
-          <TextInput style={[styles.input, { fontSize: 17, marginTop: -10 }]} value={saldoBnB.toLocaleString('pt-BR') + " BNB"} editable={false} />
+          <TextInput style={[styles.input, { fontSize: 17, marginTop: -10 }]} value={!isNaN(saldoBnB) && format(saldoBnB, 8) + " BNB"} editable={false} />
         </>
 
         <View style={[styles.box, { backgroundColor: '#565656' }]}>
@@ -206,17 +215,17 @@ export default function App() {
 
         <>
           <Text style={{ fontSize: 18, color: '#fff', fontWeight: 'bold', marginTop: 15, marginBottom: 20 }}>Máximo em Circulação:</Text>
-          <TextInput style={[styles.input, { fontSize: 17, marginTop: -10 }]} value={parseFloat(valorMaximoCirculacao / 1000000000).toLocaleString('pt-BR')} editable={false} />
+          <TextInput style={[styles.input, { fontSize: 17, marginTop: -10 }]} value={format(parseFloat(valorMaximoCirculacao / 1000000000), 2)} editable={false} />
         </>
 
         <>
           <Text style={{ fontSize: 18, color: '#fff', fontWeight: 'bold', marginTop: 15, marginBottom: 20 }}>Em Circulação:</Text>
-          <TextInput style={[styles.input, { fontSize: 17, marginTop: -10 }]} value={parseFloat((valorMaximoCirculacao - tokensQueimados) / 1000000000).toLocaleString('pt-BR')} editable={false} />
+          <TextInput style={[styles.input, { fontSize: 17, marginTop: -10 }]} value={format(parseFloat((valorMaximoCirculacao - tokensQueimados) / 1000000000), 2)} editable={false} />
         </>
 
         <>
           <Text style={{ fontSize: 18, color: '#fff', fontWeight: 'bold', marginTop: 15, marginBottom: 20 }}>Tokens queimados:</Text>
-          <TextInput style={[styles.input, { fontSize: 17, marginTop: -10 }]} value={parseFloat(tokensQueimados / 1000000000).toLocaleString('pt-BR')} editable={false} />
+          <TextInput style={[styles.input, { fontSize: 17, marginTop: -10 }]} value={format(parseFloat(tokensQueimados / 1000000000), 2)} editable={false} />
         </>
         <StatusBar style="auto" />
       </View>
